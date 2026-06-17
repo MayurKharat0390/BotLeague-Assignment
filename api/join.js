@@ -65,10 +65,60 @@ export default async function handler(req, res) {
             console.log(`[Mock DB] Storing Registration: Name: ${name}, Email: ${email}, Role: ${role}`);
         }
 
-        // Send confirmation email via Resend
+        // Send confirmation email via Resend or Brevo
         const resendApiKey = process.env.RESEND_API_KEY;
+        const brevoApiKey = process.env.BREVO_API_KEY;
+        const brevoSenderEmail = process.env.BREVO_SENDER_EMAIL || 'noreply@botleague.com';
         let emailSent = false;
-        if (resendApiKey) {
+
+        const emailHtml = `
+            <div style="background-color: #0c0c12; color: #ffffff; padding: 40px; font-family: 'Segoe UI', sans-serif; border-radius: 8px; max-width: 600px; margin: 0 auto; border: 1px solid #38bdf8;">
+                <h1 style="color: #38bdf8; text-align: center; text-transform: uppercase; letter-spacing: 2px;">Ecosystem Portal</h1>
+                <p style="font-size: 16px; line-height: 1.6; color: #b0b0bc;">Hello <strong>${name}</strong>,</p>
+                <p style="font-size: 16px; line-height: 1.6; color: #b0b0bc;">We have successfully received your application to join the BotLeague Ecosystem as a <strong>${role}</strong>.</p>
+                <div style="background-color: rgba(56,189,248,0.05); border: 1px dashed rgba(56,189,248,0.3); border-radius: 6px; padding: 20px; margin: 25px 0;">
+                    <h3 style="color: #38bdf8; margin-top: 0;">📋 APPLICATION LOG</h3>
+                    <p style="margin: 5px 0; color: #d0d0dc;"><strong>Name / Org:</strong> ${name}</p>
+                    <p style="margin: 5px 0; color: #d0d0dc;"><strong>Role Applied:</strong> ${role}</p>
+                    <p style="margin: 5px 0; color: #d0d0dc;"><strong>Location:</strong> ${loc || 'Not Specified'}</p>
+                    <p style="margin: 5px 0; color: #d0d0dc;"><strong>Status:</strong> Under Review ⏳</p>
+                </div>
+                <p style="font-size: 15px; line-height: 1.6; color: #8c8c9c; text-align: center; margin-top: 30px;">
+                    Our operations team will review your credentials and contact you shortly.
+                </p>
+            </div>
+        `;
+
+        if (brevoApiKey) {
+            try {
+                const emailResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
+                    method: 'POST',
+                    headers: {
+                        'accept': 'application/json',
+                        'api-key': brevoApiKey,
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        sender: {
+                            name: 'BotLeague Ecosystem',
+                            email: brevoSenderEmail
+                        },
+                        to: [{ email, name }],
+                        subject: `🤖 Application Received: BotLeague ${role}!`,
+                        htmlContent: emailHtml
+                    })
+                });
+                if (emailResponse.ok) {
+                    emailSent = true;
+                    console.log(`Ecosystem confirmation email sent to ${email} via Brevo`);
+                } else {
+                    const emailErr = await emailResponse.text();
+                    console.error('Brevo API email error:', emailErr);
+                }
+            } catch (emailErr) {
+                console.error('Failed to send ecosystem confirmation email via Brevo:', emailErr);
+            }
+        } else if (resendApiKey) {
             try {
                 const emailResponse = await fetch('https://api.resend.com/emails', {
                     method: 'POST',
@@ -80,37 +130,21 @@ export default async function handler(req, res) {
                         from: 'BotLeague Ecosystem <onboarding@resend.dev>',
                         to: [email],
                         subject: `🤖 Application Received: BotLeague ${role}!`,
-                        html: `
-                            <div style="background-color: #0c0c12; color: #ffffff; padding: 40px; font-family: 'Segoe UI', sans-serif; border-radius: 8px; max-width: 600px; margin: 0 auto; border: 1px solid #38bdf8;">
-                                <h1 style="color: #38bdf8; text-align: center; text-transform: uppercase; letter-spacing: 2px;">Ecosystem Portal</h1>
-                                <p style="font-size: 16px; line-height: 1.6; color: #b0b0bc;">Hello <strong>${name}</strong>,</p>
-                                <p style="font-size: 16px; line-height: 1.6; color: #b0b0bc;">We have successfully received your application to join the BotLeague Ecosystem as a <strong>${role}</strong>.</p>
-                                <div style="background-color: rgba(56,189,248,0.05); border: 1px dashed rgba(56,189,248,0.3); border-radius: 6px; padding: 20px; margin: 25px 0;">
-                                    <h3 style="color: #38bdf8; margin-top: 0;">📋 APPLICATION LOG</h3>
-                                    <p style="margin: 5px 0; color: #d0d0dc;"><strong>Name / Org:</strong> ${name}</p>
-                                    <p style="margin: 5px 0; color: #d0d0dc;"><strong>Role Applied:</strong> ${role}</p>
-                                    <p style="margin: 5px 0; color: #d0d0dc;"><strong>Location:</strong> ${loc || 'Not Specified'}</p>
-                                    <p style="margin: 5px 0; color: #d0d0dc;"><strong>Status:</strong> Under Review ⏳</p>
-                                </div>
-                                <p style="font-size: 15px; line-height: 1.6; color: #8c8c9c; text-align: center; margin-top: 30px;">
-                                    Our operations team will review your credentials and contact you shortly.
-                                </p>
-                            </div>
-                        `
+                        html: emailHtml
                     })
                 });
                 if (emailResponse.ok) {
                     emailSent = true;
-                    console.log(`Ecosystem confirmation email sent to ${email}`);
+                    console.log(`Ecosystem confirmation email sent to ${email} via Resend`);
                 } else {
                     const emailErr = await emailResponse.text();
                     console.error('Resend API email error:', emailErr);
                 }
             } catch (emailErr) {
-                console.error('Failed to send ecosystem confirmation email:', emailErr);
+                console.error('Failed to send ecosystem confirmation email via Resend:', emailErr);
             }
         } else {
-            console.log(`[Resend Mock] Ecosystem email for ${email} skipped (configure RESEND_API_KEY)`);
+            console.log(`[Email Mock] Ecosystem email for ${email} skipped (configure BREVO_API_KEY or RESEND_API_KEY)`);
         }
 
         return res.status(200).json({
