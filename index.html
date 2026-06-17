@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BotLeague - India's Ultimate Robotics Arena. Compete, build, and win national robotics championships. Join the ultimate platform for robot combat and robotics enthusiasts.">
+    <meta name="keywords" content="Robotics Arena, Robot Combat, Robo War, Robo Race, Line Follower, India Robotics, BotLeague, BotMakers">
+    <meta name="author" content="Mayur Kharat">
+    <title>BotLeague | India's Ultimate Robotics Arena</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-pyro">
+    <!-- Header / Navigation -->
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-wrapper">
+                <span class="logo-accent-left"></span>
+                <div class="logo">
+                    <a href="#" class="logo-link">
+                        <span class="logo-bot">B<i class="fa-solid fa-gear logo-gear"></i>T</span><span class="logo-league">LEAGUE</span>
+                    </a>
+                </div>
+                <span class="logo-accent-right"></span>
+            </div>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="#competitions" class="nav-link active">Events</a></li>
+                    <li><a href="#categories" class="nav-link">Programs</a></li>
+                    <li><a href="#ecosystem" class="nav-link">Community</a></li>
+                    <li><a href="#advantage" class="nav-link">Ranks</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <!-- Arena Lights Switcher -->
+                <button class="theme-toggle" id="themeToggle" title="Toggle Arena Lights">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span class="theme-toggle-text">Pyro Red</span>
+                </button>
+                <a href="#ecosystem" class="btn btn-login">Login</a>
+                <a href="#ecosystem" class="btn btn-register">Register Now</a>
+                <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+        <canvas id="arenaCanvas"></canvas>
+        <div class="hero-overlay"></div>
+        <!-- Interactive Arena Controls -->
+        <div class="arena-controls-hud">
+            <button class="btn-hud-pilot" id="pilotToggleBtn" title="Manually Control GigaBlitz (Blue Bot)">
+                <i class="fa-solid fa-gamepad"></i> PILOT GIGABLITZ
+            </button>
+            <div class="pilot-instructions" id="pilotInstructions">
+                <span class="instruction-title">Manual Override</span>
+                <span class="control-keys"><span class="key-label">Move</span> <span class="key">W A S D</span></span>
+                <span class="control-keys"><span class="key-label">Aim</span> <span class="key">← ↑ → ↓</span></span>
+                <span class="control-keys"><span class="key-label">Weapon</span> <span class="key">Space</span></span>
+            </div>
+        </div>
+        <div class="hero-live-badge-wrapper">
+            <div class="hero-live-badge">
+                <span class="live-dot"></span>
+                <span class="live-text">LIVE : Episode 14 &bull; Bengaluru Regionals</span>
+                <a href="#competitions" class="watch-link">WATCH LIVE</a>
+            </div>
+        </div>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title animate-text">INDIA'S ULTIMATE<br>ROBOTICS ARENA</h1>
+                <p class="hero-subtitle">Build.Compete.Rank.The National Ecosystem for Robotics Arena</p>
+                <div class="hero-buttons">
+                    <a href="#ecosystem" class="btn btn-primary btn-lg">CREATE ACCOUNT</a>
+                    <a href="#competitions" class="btn btn-outline btn-lg">EXPLORE EVENTS</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competitions & Events -->
+    <section class="competitions-section" id="competitions">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="subtitle-highlight">Season 2026</span>
+                <h2 class="section-title">COMPETITIONS &amp; EVENTS</h2>
+                <p class="section-subtitle">Live battles. Regional qualifiers. National glory. Track every match in real time.</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <!-- Live Stats Bar -->
+            <div class="comp-stats-bar">
+                <div class="stat-pill">
+                    <span class="stat-pulse"></span>
+                    <span class="stat-label">LIVE VIEWERS</span>
+                    <span class="stat-value" id="liveViewerCount">12,847</span>
+                </div>
+                <div class="stat-pill">
+                    <i class="fa-solid fa-trophy"></i>
+                    <span class="stat-label">MATCHES TODAY</span>
+                    <span class="stat-value">6</span>
+                </div>
+                <div class="stat-pill">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span class="stat-label">ACTIVE VENUE</span>
+                    <span class="stat-value">Bengaluru</span>
+                </div>
+                <div class="stat-pill">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span class="stat-label">SEASON MATCHES</span>
+                    <span class="stat-value">214</span>
+                </div>
+            </div>
+            
+            <div class="competitions-grid">
+                <!-- Live Now Column -->
+                <div class="comp-col live-col">
+                    <div class="comp-col-header">
+                        <h3><span class="pulse-dot"></span> LIVE NOW</h3>
+                        <span class="event-tag badge-live"><i class="fa-solid fa-signal"></i> Live</span>
+                    </div>
+                    <div class="comp-card live-card">
+                        <div class="live-card-glow"></div>
+                        <div class="card-top">
+                            <div class="live-event-meta">
+                                <span class="live-episode-badge"><i class="fa-solid fa-circle-dot"></i> EP. 14 &bull; SEMI-FINALS</span>
+                            </div>
+                            <h4>Bangalore Regionals</h4>
+                            <span class="card-sub">Championship Bracket &bull; Steel Arena 3</span>
+                        </div>
+                        
+                        <!-- Bracket Visualizer -->
+                        <div class="bracket-container">
+                            <div class="bracket-round round-1">
+                                <div class="bracket-match match-1" data-match="1">
+                                    <div class="bracket-team team-top winner" data-team="valkyrie">
+                                        <span class="team-name">Valkyrie-X</span>
+                                        <span class="team-score">3</span>
+                                    </div>
+                                    <div class="bracket-team team-bottom" data-team="titan">
+                                        <span class="team-name">Steel Titan</span>
+                                        <span class="team-score">1</span>
+                                    </div>
+                                </div>
+                                <div class="bracket-match match-2" data-match="2">
+                                    <div class="bracket-team team-top" data-team="raptor">
+                                        <span class="team-name">Raptor 2.0</span>
+                                        <span class="team-score">0</span>
+                                    </div>
+                                    <div class="bracket-team team-bottom winner" data-team="blitz">
+                                        <span class="team-name">GigaBlitz</span>
+                                        <span class="team-score">3</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bracket-connectors">
+                                <svg class="connector-svg" width="60" height="120">
+                                    <path d="M 0 30 L 30 30 L 30 90 L 0 90 M 30 60 L 60 60" fill="none" class="connector-line" id="conn-semi"/>
+                                </svg>
+                            </div>
+                            <div class="bracket-round round-2">
+                                <div class="bracket-match match-final" data-match="3">
+                                    <div class="bracket-final-label">GRAND FINAL</div>
+                                    <div class="bracket-team team-top pending" data-team="valkyrie">
+                                        <span class="team-name">Valkyrie-X</span>
+                                        <span class="team-score">-</span>
+                                    </div>
+                                    <div class="bracket-team team-bottom pending" data-team="blitz">
+                                        <span class="team-name">GigaBlitz</span>
+                                        <span class="team-score">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bracket-footer">
+                            <span class="info-text"><i class="fa-solid fa-hand-pointer"></i> Hover teams to trace bracket path</span>
+                            <a href="#ecosystem" class="watch-live-btn"><i class="fa-solid fa-play"></i> Watch Live</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Column -->
+                <div class="comp-col upcoming-col">
+                    <div class="comp-col-header">
+                        <h3>UPCOMING</h3>
+                        <span class="event-tag badge-upcoming">Next 30 Days</span>
+                    </div>
+                    
+                    <div class="comp-card upcoming-card" id="upcomingPune">
+                        <div class="upcoming-card-accent"></div>
+                        <div class="card-body">
+                            <div class="card-badge">REGISTERING</div>
+                            <h4>Pune Regionals</h4>
+                            <div class="event-details">
+                                <p><i class="fa-regular fa-calendar"></i> 12th July 2026</p>
+                                <p><i class="fa-solid fa-location-dot"></i> Balewadi Stadium, Pune</p>
+                                <p><i class="fa-solid fa-users"></i> 48 Teams Registered</p>
+                            </div>
+                            <!-- Countdown -->
+                            <div class="countdown" id="puneCountdown">
+                                <div class="time-block">
+                                    <span class="time-val" id="days">00</span>
+                                    <span class="time-lbl">Days</span>
+                                </div>
+                                <div class="time-sep">:</div>
+                                <div class="time-block">
+                                    <span class="time-val" id="hours">00</span>
+                                    <span class="time-lbl">Hrs</span>
+                                </div>
+                                <div class="time-sep">:</div>
+                                <div class="time-block">
+                                    <span class="time-val" id="mins">00</span>
+                                    <span class="time-lbl">Mins</span>
+                                </div>
+                            </div>
+                            <a href="#ecosystem" class="btn btn-primary btn-block">REGISTER NOW</a>
+                        </div>
+                    </div>
+
+                    <div class="comp-card upcoming-card">
+                        <div class="card-body">
+                            <h4>Delhi Regionals</h4>
+                            <div class="event-details">
+                                <p><i class="fa-regular fa-calendar"></i> 25th July 2026</p>
+                                <p><i class="fa-solid fa-location-dot"></i> Pragati Maidan, Delhi</p>
+                                <p><i class="fa-solid fa-users"></i> 30 Teams Registered</p>
+                            </div>
+                            <a href="#ecosystem" class="btn btn-outline btn-block">REGISTER NOW</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Past Results Column -->
+                <div class="comp-col past-col">
+                    <div class="comp-col-header">
+                        <h3>PAST RESULTS</h3>
+                        <span class="event-tag badge-past">Completed</span>
+                    </div>
+                    
+                    <div class="comp-card past-card">
+                        <!-- Scrolling ticker for past results -->
+                        <div class="past-results-ticker">
+                            <div class="ticker-track" id="resultsTicker">
+                                <div class="past-item">
+                                    <div class="past-item-rank">1st</div>
+                                    <div class="past-info">
+                                        <h4>Bangalore Regionals</h4>
+                                        <span class="past-date"><i class="fa-regular fa-calendar"></i> Oct 2025</span>
+                                    </div>
+                                    <div class="winner-info">
+                                        <span class="winner-label"><i class="fa-solid fa-trophy"></i> Winner</span>
+                                        <span class="winner-name">Team Valkyrie</span>
+                                    </div>
+                                </div>
+                                <div class="past-item">
+                                    <div class="past-item-rank">2nd</div>
+                                    <div class="past-info">
+                                        <h4>Mumbai Regionals</h4>
+                                        <span class="past-date"><i class="fa-regular fa-calendar"></i> Sep 2025</span>
+                                    </div>
+                                    <div class="winner-info">
+                                        <span class="winner-label"><i class="fa-solid fa-trophy"></i> Winner</span>
+                                        <span class="winner-name">Hydra Bots</span>
+                                    </div>
+                                </div>
+                                <div class="past-item">
+                                    <div class="past-item-rank">3rd</div>
+                                    <div class="past-info">
+                                        <h4>Chennai Regionals</h4>
+                                        <span class="past-date"><i class="fa-regular fa-calendar"></i> Aug 2025</span>
+                                    </div>
+                                    <div class="winner-info">
+                                        <span class="winner-label"><i class="fa-solid fa-trophy"></i> Winner</span>
+                                        <span class="winner-name">Zenith Alpha</span>
+                                    </div>
+                                </div>
+                                <div class="past-item">
+                                    <div class="past-item-rank">4th</div>
+                                    <div class="past-info">
+                                        <h4>Hyderabad Invitational</h4>
+                                        <span class="past-date"><i class="fa-regular fa-calendar"></i> Jul 2025</span>
+                                    </div>
+                                    <div class="winner-info">
+                                        <span class="winner-label"><i class="fa-solid fa-trophy"></i> Winner</span>
+                                        <span class="winner-name">GigaBlitz</span>
+                                    </div>
+                                </div>
+                                <div class="past-item">
+                                    <div class="past-item-rank">5th</div>
+                                    <div class="past-info">
+                                        <h4>Kolkata Open</h4>
+                                        <span class="past-date"><i class="fa-regular fa-calendar"></i> Jun 2025</span>
+                                    </div>
+                                    <div class="winner-info">
+                                        <span class="winner-label"><i class="fa-solid fa-trophy"></i> Winner</span>
+                                        <span class="winner-name">Raptor 2.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="past-card-footer">
+                            <a href="#" class="view-all-link">View full history <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Path to League Section -->
+    <section class="path-section" id="path">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="subtitle-highlight">Your Journey</span>
+                <h2 class="section-title">YOUR PATH TO THE LEAGUE</h2>
+                <p class="section-subtitle">Four steps separate you from the garage to the Grand National Arena. Begin now.</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="path-steps-grid">
+                <!-- Step 1 -->
+                <div class="path-step-card" data-step="1">
+                    <div class="path-step-number">01</div>
+                    <div class="path-step-icon-wrap">
+                        <div class="path-step-icon">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                    </div>
+                    <div class="path-step-body">
+                        <span class="path-step-tag">Foundation</span>
+                        <h3>BUILD YOUR TEAM</h3>
+                        <p>Assemble engineers, electronics experts, coders, and designers. Conceptualize and construct your battle-ready machine from the ground up.</p>
+                    </div>
+                    <div class="path-step-connector"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="path-step-card" data-step="2">
+                    <div class="path-step-number">02</div>
+                    <div class="path-step-icon-wrap">
+                        <div class="path-step-icon">
+                            <i class="fa-solid fa-earth-asia"></i>
+                        </div>
+                    </div>
+                    <div class="path-step-body">
+                        <span class="path-step-tag">Compete</span>
+                        <h3>COMPETE ACROSS INDIA</h3>
+                        <p>Register for regional qualifiers in Bangalore, Pune, Mumbai and Delhi. Rack up wins, earn points, and dominate your weight class.</p>
+                    </div>
+                    <div class="path-step-connector"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="path-step-card" data-step="3">
+                    <div class="path-step-number">03</div>
+                    <div class="path-step-icon-wrap">
+                        <div class="path-step-icon">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                    </div>
+                    <div class="path-step-body">
+                        <span class="path-step-tag">Championship</span>
+                        <h3>WIN NATIONALS</h3>
+                        <p>Top regional teams earn seedings in the Grand National Championship Arena. Defeat the best to claim the ultimate title and cash prize.</p>
+                    </div>
+                    <div class="path-step-connector"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="path-step-card" data-step="4">
+                    <div class="path-step-number">04</div>
+                    <div class="path-step-icon-wrap">
+                        <div class="path-step-icon">
+                            <i class="fa-solid fa-users-gear"></i>
+                        </div>
+                    </div>
+                    <div class="path-step-body">
+                        <span class="path-step-tag">Elite</span>
+                        <h3>JOIN THE LEAGUE</h3>
+                        <p>Elite teams earn professional contracts, corporate sponsorships, and exclusive backing from industry leaders to build next-gen robots.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What is BotLeague Section -->
+    <section class="about-section" id="about">
+        <div class="container about-container">
+            <div class="about-content">
+                <span class="subtitle-highlight">Who We Are</span>
+                <h2 class="section-title">WHAT IS BOTLEAGUE?</h2>
+                <div class="section-divider left-align"></div>
+                <p class="about-desc">BotLeague is India's first professional-grade robotics competition ecosystem — a national arena where engineers, students, and innovators clash with machines they've built from scratch. We provide the venues, the rules, and the ladder to the top.</p>
+
+                <!-- Animated stat counters -->
+                <div class="about-stats">
+                    <div class="about-stat">
+                        <span class="about-stat-val" data-target="214">0</span>
+                        <span class="about-stat-unit">+</span>
+                        <span class="about-stat-label">Matches Played</span>
+                    </div>
+                    <div class="about-stat">
+                        <span class="about-stat-val" data-target="48">0</span>
+                        <span class="about-stat-unit">+</span>
+                        <span class="about-stat-label">Registered Teams</span>
+                    </div>
+                    <div class="about-stat">
+                        <span class="about-stat-val" data-target="8">0</span>
+                        <span class="about-stat-unit"></span>
+                        <span class="about-stat-label">Indian Cities</span>
+                    </div>
+                    <div class="about-stat">
+                        <span class="about-stat-val" data-target="3">0</span>
+                        <span class="about-stat-unit">Cr+</span>
+                        <span class="about-stat-label">Prize Pool</span>
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="feature-text">
+                            <h3>Structured Events</h3>
+                            <p>Professional weight brackets, standardized arenas, and safety protocols ensuring a level playing field.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon-box"><i class="fa-solid fa-ranking-star"></i></div>
+                        <div class="feature-text">
+                            <h3>National Ranking</h3>
+                            <p>Every match counts towards a unified Indian robotics leaderboard, updating in real time.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon-box"><i class="fa-solid fa-id-card"></i></div>
+                        <div class="feature-text">
+                            <h3>Digital Identity</h3>
+                            <p>Unique profiles for pilots, teams, and robots — tracking stats, history, and achievements.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon-box"><i class="fa-solid fa-briefcase"></i></div>
+                        <div class="feature-text">
+                            <h3>Career Pathway</h3>
+                            <p>Direct exposure to R&amp;D companies, robotics internships, university sponsorships, and job opportunities.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-graphics">
+                <div class="about-visual-card">
+                    <div class="about-visual-glow"></div>
+                    <div class="about-visual-header">
+                        <span class="about-visual-dot active"></span>
+                        <span class="about-visual-dot"></span>
+                        <span class="about-visual-dot"></span>
+                        <span class="about-visual-label">BOTLEAGUE OS v2.6</span>
+                    </div>
+                    <div class="about-visual-lines">
+                        <div class="vl vl-cmd"><span class="vl-prompt">$</span> <span class="vl-text" data-text="init --team &quot;Valkyrie-X&quot;"></span><span class="vl-cursor"></span></div>
+                        <div class="vl vl-ok">✔ Team profile created [ID: BL-0214]</div>
+                        <div class="vl vl-cmd"><span class="vl-prompt">$</span> <span class="vl-text" data-text="register --event &quot;Pune Regionals&quot;"></span></div>
+                        <div class="vl vl-ok">✔ Slot confirmed · Seed #12 · July 12</div>
+                        <div class="vl vl-cmd"><span class="vl-prompt">$</span> <span class="vl-text" data-text="upload-bot --class heavyweight"></span></div>
+                        <div class="vl vl-ok">✔ Robot specs verified · 28.4 kg</div>
+                        <div class="vl vl-cmd active"><span class="vl-prompt">$</span> <span class="vl-text" data-text="join-league --tier professional"></span><span class="vl-cursor"></span></div>
+                        <div class="vl vl-info">⚡ Processing... Career track initiated.</div>
+                    </div>
+                    <div class="about-visual-footer">
+                        <span class="avf-status"><span class="avf-dot"></span> System Live</span>
+                        <span class="avf-time" id="avfTime">00:00:00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section" id="categories">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">CATEGORIES</h2>
+                <div class="section-divider"></div>
+            </div>
+            
+            <div class="categories-grid">
+                <!-- Card 1 -->
+                <div class="category-card" data-category="mini">
+                    <div class="card-glow"></div>
+                    <div class="category-icon">
+                        <span class="icon-circle">M</span>
+                    </div>
+                    <h3>MINI FIGHTERS</h3>
+                    <p>Featherweight combat robots up to 5kg. Built for speed, agility, and tactical maneuvers. Ideal for university students and intermediate builders.</p>
+                    <button class="btn-readmore">READ MORE <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="category-card" data-category="junior">
+                    <div class="card-glow"></div>
+                    <div class="category-icon">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <h3>JUNIOR INNOVATORS</h3>
+                    <p>Designed for secondary and high school students. Projects focusing on smart automation, ecological solutions, and helpful domestic gadgets.</p>
+                    <button class="btn-readmore">READ MORE <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="category-card" data-category="young">
+                    <div class="card-glow"></div>
+                    <div class="category-icon">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <h3>YOUNG ENGINEERS</h3>
+                    <p>College and university division featuring advanced heavy combat machines (up to 30kg) and industrial grade autonomous challenges.</p>
+                    <button class="btn-readmore">READ MORE <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="category-card" data-category="minds">
+                    <div class="card-glow"></div>
+                    <div class="category-icon">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3>ROBO MINDS</h3>
+                    <p>AI-focused challenge. Robots must autonomously navigate dynamic mazes, identify targets, and make real-time decisions using machine vision.</p>
+                    <button class="btn-readmore">READ MORE <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disciplines Section -->
+    <section class="disciplines-section" id="disciplines">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="subtitle-highlight">SPORTS</span>
+                <h2 class="section-title">COMPETITION DISCIPLINES</h2>
+                <div class="section-divider"></div>
+            </div>
+            
+            <div class="disciplines-grid">
+                <!-- Grid items -->
+                <div class="discipline-card" data-discipline="race">
+                    <img src="assets/robo_race.png" alt="Robo Race" class="discipline-img">
+                    <div class="discipline-overlay">
+                        <h3>Robo Race</h3>
+                        <p>Wheeled autonomous robots speed through tracks filled with obstacles, ramps, and sharp turns. Fastest lap wins.</p>
+                    </div>
+                </div>
+
+                <div class="discipline-card" data-discipline="line">
+                    <img src="assets/line_follower.png" alt="Line Follower" class="discipline-img">
+                    <div class="discipline-overlay">
+                        <h3>Line Follower</h3>
+                        <p>High-precision robots navigate intricate paths marked by black lines. Measures code efficiency and sensor accuracy.</p>
+                    </div>
+                </div>
+
+                <div class="discipline-card" data-discipline="rc">
+                    <img src="assets/rc_racing.png" alt="RC Racing" class="discipline-img">
+                    <div class="discipline-overlay">
+                        <h3>RC Racing</h3>
+                        <p>Manually driven remote control buggies competing in head-to-head racing on dynamic off-road dirt arenas.</p>
+                    </div>
+                </div>
+
+                <div class="discipline-card" data-discipline="drone">
+                    <img src="assets/drone_racing.png" alt="FPV Drone Racing" class="discipline-img">
+                    <div class="discipline-overlay">
+                        <h3>FPV Drone Racing</h3>
+                        <p>Pilots navigate micro-quadcopters through three-dimensional glowing obstacle courses at breakneck speeds.</p>
+                    </div>
+                </div>
+
+                <div class="discipline-card" data-discipline="hockey">
+                    <img src="assets/robo_hockey.png" alt="Robo Hockey" class="discipline-img">
+                    <div class="discipline-overlay">
+                        <h3>Robo Hockey</h3>
+                        <p>Teams of two wheeled robots face off on a custom miniature pitch, shooting pucks to score goals in a thrilling match.</p>
+                    </div>
+                </div>
+
+                <div class="discipline-card" data-discipline="war">
+                    <img src="assets/robo_war.png" alt="Robo War" class="discipline-img">
+                    <div class="discipline-overlay">
+                        <h3>Robo War</h3>
+                        <p>The main event. Custom metallic beasts clash in an enclosed steel arena, using hammers, lifters, and spinners to destroy opponents.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Register / Leaderboard Section -->
+    <section class="advantage-section" id="advantage">
+        <div class="container advantage-container">
+            <div class="advantage-info">
+                <span class="subtitle-highlight">Why Register ?</span>
+                <h2 class="section-title">THE LEAGUE ADVANTAGE</h2>
+                <div class="section-divider left-align"></div>
+                
+                <ul class="advantage-list">
+                    <li>
+                        <div class="advantage-icon"><i class="fa-solid fa-award"></i></div>
+                        <div class="advantage-text">
+                            <h3>NATIONAL RECOGNITION</h3>
+                            <p>Be broadcast on sports networks and highlighted in national science and technology portals.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="advantage-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                        <div class="advantage-text">
+                            <h3>FAIR JUDGING</h3>
+                            <p>Rule compliance overseen by internationally accredited robotics judges and electronic telemetry sensors.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="advantage-icon"><i class="fa-solid fa-briefcase"></i></div>
+                        <div class="advantage-text">
+                            <h3>CAREER OPS</h3>
+                            <p>Earn premium internships and recruiting opportunities with leading Indian R&D and aerospace corporations.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="advantage-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="advantage-text">
+                            <h3>HIGH-ENERGY ECOSYSTEM</h3>
+                            <p>Gain access to exclusive technical documentation, hardware discounts, and active Discord channels.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="leaderboard-panel">
+                <div class="leaderboard-header">
+                    <h3><i class="fa-solid fa-ranking-star"></i> LEADERBOARD</h3>
+                    <div class="leaderboard-controls">
+                        <input type="text" id="leaderboardSearch" placeholder="Search team..." aria-label="Search teams">
+                        <select id="leaderboardSort" aria-label="Sort options">
+                            <option value="rank">Sort by Rank</option>
+                            <option value="points">Sort by Points</option>
+                            <option value="wins">Sort by Wins</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="leaderboard-table-container">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Team Name</th>
+                                <th>Location</th>
+                                <th>Wins</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardBody">
+                            <tr data-team="valkyrie" data-rank="1" data-points="1450" data-wins="12">
+                                <td class="rank-cell rank-1"><i class="fa-solid fa-trophy gold"></i> 1</td>
+                                <td class="team-cell">Valkyrie-X</td>
+                                <td>Bangalore</td>
+                                <td>12</td>
+                                <td class="points-cell">1450</td>
+                            </tr>
+                            <tr data-team="blitz" data-rank="2" data-points="1320" data-wins="10">
+                                <td class="rank-cell rank-2"><i class="fa-solid fa-trophy silver"></i> 2</td>
+                                <td class="team-cell">GigaBlitz</td>
+                                <td>Mumbai</td>
+                                <td>10</td>
+                                <td class="points-cell">1320</td>
+                            </tr>
+                            <tr data-team="raptor" data-rank="3" data-points="1190" data-wins="9">
+                                <td class="rank-cell rank-3"><i class="fa-solid fa-trophy bronze"></i> 3</td>
+                                <td class="team-cell">Raptor 2.0</td>
+                                <td>Delhi</td>
+                                <td>9</td>
+                                <td class="points-cell">1190</td>
+                            </tr>
+                            <tr data-team="titan" data-rank="4" data-points="1050" data-wins="8">
+                                <td class="rank-cell">4</td>
+                                <td class="team-cell">Steel Titan</td>
+                                <td>Pune</td>
+                                <td>8</td>
+                                <td class="points-cell">1050</td>
+                            </tr>
+                            <tr data-team="hydra" data-rank="5" data-points="980" data-wins="7">
+                                <td class="rank-cell">5</td>
+                                <td class="team-cell">Hydra Bots</td>
+                                <td>Chennai</td>
+                                <td>7</td>
+                                <td class="points-cell">980</td>
+                            </tr>
+                            <tr data-team="zenith" data-rank="6" data-points="910" data-wins="6">
+                                <td class="rank-cell">6</td>
+                                <td class="team-cell">Zenith Alpha</td>
+                                <td>Hyderabad</td>
+                                <td>6</td>
+                                <td class="points-cell">910</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join The Ecosystem Section -->
+    <section class="ecosystem-section" id="ecosystem">
+
+        <!-- Decorative orbit rings -->
+        <div class="eco-orbit eco-orbit-1"></div>
+        <div class="eco-orbit eco-orbit-2"></div>
+
+        <div class="container">
+            <!-- Split header -->
+            <div class="eco-hero-header">
+                <div class="eco-hero-left">
+                    <span class="subtitle-highlight">Your Role Awaits</span>
+                    <h2 class="section-title eco-title">JOIN THE<br><span class="eco-title-accent">ECOSYSTEM</span></h2>
+                    <p class="eco-hero-desc">BotLeague runs on people. From seasoned engineers grading combat rounds to student volunteers keeping the energy electric — every role shapes the arena.</p>
+                    <div class="eco-live-badge">
+                        <span class="eco-live-dot"></span>
+                        <span id="ecoMemberCount">2,340</span> members active this week
+                    </div>
+                </div>
+                <div class="eco-hero-right">
+                    <div class="eco-role-pills">
+                        <div class="eco-role-pill active" data-target="judgeCard">
+                            <i class="fa-solid fa-gavel"></i> Judge
+                        </div>
+                        <div class="eco-role-pill" data-target="volunteerCard">
+                            <i class="fa-solid fa-hand-holding-heart"></i> Volunteer
+                        </div>
+                        <div class="eco-role-pill" data-target="partnerCard">
+                            <i class="fa-solid fa-handshake"></i> Partner
+                        </div>
+                    </div>
+                    <p class="eco-role-hint">Select a role to jump straight to its form ↓</p>
+                </div>
+            </div>
+
+            <div class="ecosystem-grid">
+                <!-- Card 1: Judge -->
+                <div class="eco-card eco-card--judge" id="judgeCard">
+                    <div class="eco-card-accent-bar"></div>
+                    <div class="eco-card-header">
+                        <div class="eco-card-icon-wrap"><i class="fa-solid fa-gavel"></i></div>
+                        <div>
+                            <span class="eco-card-tag">Expert Role</span>
+                            <h3>BECOME A JUDGE</h3>
+                        </div>
+                    </div>
+                    <p class="eco-card-desc">For experienced engineers, academics, and industry experts who want to shape fair competition at every level.</p>
+                    <div class="eco-perks">
+                        <span class="eco-perk"><i class="fa-solid fa-check"></i> Official Credentials</span>
+                        <span class="eco-perk"><i class="fa-solid fa-check"></i> Honorarium Provided</span>
+                        <span class="eco-perk"><i class="fa-solid fa-check"></i> National Recognition</span>
+                    </div>
+                    <form class="eco-form" id="judgeForm" data-type="Judge">
+                        <div class="form-group">
+                            <input type="text" id="judgeName" required placeholder=" " class="form-control">
+                            <label for="judgeName">Full Name</label>
+                            <span class="error-msg">Name is required</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="judgeLoc" required placeholder=" " class="form-control">
+                            <label for="judgeLoc">City / Location</label>
+                            <span class="error-msg">Location is required</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="judgeEmail" required placeholder=" " class="form-control">
+                            <label for="judgeEmail">Email Address</label>
+                            <span class="error-msg">Enter a valid email</span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block eco-submit-btn">
+                            APPLY AS JUDGE <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+                    <div class="form-success-message">
+                        <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <h4>Application Submitted!</h4>
+                        <p>Our operations team will contact you shortly to schedule an evaluation.</p>
+                        <button class="btn btn-outline btn-sm reset-form-btn">Submit Another</button>
+                    </div>
+                </div>
+
+                <!-- Card 2: Volunteer -->
+                <div class="eco-card eco-card--volunteer" id="volunteerCard">
+                    <div class="eco-card-accent-bar"></div>
+                    <div class="eco-card-header">
+                        <div class="eco-card-icon-wrap"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                        <div>
+                            <span class="eco-card-tag">Community Role</span>
+                            <h3>VOLUNTEER</h3>
+                        </div>
+                    </div>
+                    <p class="eco-card-desc">Students and enthusiasts who want to assist in managing events, crowd energy, and on-ground operations.</p>
+                    <div class="eco-perks">
+                        <span class="eco-perk"><i class="fa-solid fa-check"></i> Event Access Pass</span>
+                        <span class="eco-perk"><i class="fa-solid fa-check"></i> BotLeague Kit</span>
+                        <span class="eco-perk"><i class="fa-solid fa-check"></i> Certificate of Service</span>
+                    </div>
+                    <form class="eco-form" id="volunteerForm" data-type="Volunteer">
+                        <div class="form-group">
+                            <input type="text" id="volunteerName" required placeholder=" " class="form-control">
+                            <label for="volunteerName">Full Name</label>
+                            <span class="error-msg">Name is required</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="volunteerLoc" required placeholder=" " class="form-control">
+                            <label for="volunteerLoc">City / Location</label>
+                            <span class="error-msg">Location is required</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="volunteerEmail" required placeholder=" " class="form-control">
+                            <label for="volunteerEmail">Email Address</label>
+                            <span class="error-msg">Enter a valid email</span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block eco-submit-btn">
+                            SIGN UP TO VOLUNTEER <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+                    <div class="form-success-message">
+                        <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <h4>Registered as Volunteer!</h4>
+                        <p>We've registered you for upcoming events. Look out for orientation materials in your inbox.</p>
+                        <button class="btn btn-outline btn-sm reset-form-btn">Submit Another</button>
+                    </div>
+                </div>
+
+                <!-- Card 3: Community Partner -->
+                <div class="eco-card eco-card--partner" id="partnerCard">
+                    <div class="eco-card-accent-bar"></div>
+                    <div class="eco-card-header">
+                        <div class="eco-card-icon-wrap"><i class="fa-solid fa-handshake"></i></div>
+                        <div>
+                            <span class="eco-card-tag">Corporate Role</span>
+                            <h3>COMMUNITY PARTNER</h3>
+                        </div>
+                    </div>
+                    <p class="eco-card-desc">For clubs, schools, maker-spaces, or companies looking to affiliate with India's biggest robotics league.</p>
+                    <div class="eco-perks">
+                        <span class="eco-perk"><i class="fa-solid fa-check"></i> Co-branded Presence</span>
+                        <span class="eco-perk"><i class="fa-solid fa-check"></i> Talent Pipeline</span>
+                        <span class="eco-perk"><i class="fa-solid fa-check"></i> Event Sponsorship</span>
+                    </div>
+                    <form class="eco-form" id="partnerForm" data-type="Community Partner">
+                        <div class="form-group">
+                            <input type="text" id="partnerName" required placeholder=" " class="form-control">
+                            <label for="partnerName">Organization / Name</label>
+                            <span class="error-msg">Organization/Name is required</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="partnerLoc" required placeholder=" " class="form-control">
+                            <label for="partnerLoc">City / Location</label>
+                            <span class="error-msg">Location is required</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="partnerEmail" required placeholder=" " class="form-control">
+                            <label for="partnerEmail">Email Address</label>
+                            <span class="error-msg">Enter a valid email</span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block eco-submit-btn">
+                            REQUEST PARTNERSHIP <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+                    <div class="form-success-message">
+                        <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <h4>Partnership Request Sent!</h4>
+                        <p>A partnership lead will email you with our partner program deck within 24 hours.</p>
+                        <button class="btn btn-outline btn-sm reset-form-btn">Submit Another</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sponsors Section -->
+    <section class="sponsors-section">
+        <div class="container">
+            <div class="sponsors-header">
+                <span class="sponsors-eyebrow">Backed By The Best</span>
+                <h3 class="sponsors-title">OUR SPONSORS & PARTNERS</h3>
+                <p class="sponsors-sub">BotLeague is proudly supported by India's premier academic institutions and robotics industry leaders.</p>
+            </div>
+            <div class="sponsors-grid">
+                <div class="sponsor-card">
+                    <div class="sponsor-frame">
+                        <img src="assets/sp_iit_delhi.png" alt="IIT Delhi" class="sponsor-img">
+                    </div>
+                    <span class="sponsor-name">IIT DELHI</span>
+                    <span class="sponsor-type">Academic Partner</span>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-frame">
+                        <img src="assets/sp_robomax.png" alt="RoboMax Kit" class="sponsor-img">
+                    </div>
+                    <span class="sponsor-name">ROBOMAX KIT</span>
+                    <span class="sponsor-type">Hardware Sponsor</span>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-frame">
+                        <img src="assets/sp_iit_bombay.png" alt="IIT Bombay" class="sponsor-img">
+                    </div>
+                    <span class="sponsor-name">IIT BOMBAY</span>
+                    <span class="sponsor-type">Academic Partner</span>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-frame">
+                        <img src="assets/sp_robocompany.png" alt="Robo Company" class="sponsor-img">
+                    </div>
+                    <span class="sponsor-name">ROBO COMPANY</span>
+                    <span class="sponsor-type">Industry Partner</span>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-frame">
+                        <img src="assets/sp_iit_roorkee.png" alt="IIT Roorkee" class="sponsor-img">
+                    </div>
+                    <span class="sponsor-name">IIT ROORKEE</span>
+                    <span class="sponsor-type">Academic Partner</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <h2>BOT<span class="highlight">LEAGUE</span></h2>
+                <p>India's ultimate robotics competition platform. Nurturing the next generation of engineers, pilots, and designers.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#about">About BotLeague</a></li>
+                    <li><a href="#competitions">Championships</a></li>
+                    <li><a href="#categories">Robot Classes</a></li>
+                    <li><a href="#advantage">Leaderboard</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-newsletter">
+                <h3>Stay Tuned</h3>
+                <p>Get notified about upcoming regional events, rules changes, and early registrations.</p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="Enter your email" required aria-label="Newsletter email">
+                    <button type="submit" class="btn btn-primary"><i class="fa-regular fa-paper-plane"></i></button>
+                </form>
+                <div class="newsletter-success" id="newsletterSuccess">Subscribed!</div>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 BotLeague. All Rights Reserved. Prepared for BotMakers Pvt Ltd Assignment.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Detail Modals -->
+    <div class="modal-backdrop" id="detailModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+            <div class="modal-body-content" id="modalBodyContent">
+                <!-- Content injected dynamically via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Mascot Tour Bot -->
+    <div class="tour-bot-wrapper" id="tourBot">
+        <div class="tour-bot-bubble-container">
+            <div class="tour-bot-bubble" id="tourBotBubble">
+                <div class="tour-bot-bubble-text" id="tourBotBubbleText">bzzt... Initializing R0-B0 guide drone. Follow me, human!</div>
+                <div class="tour-bot-bubble-arrow"></div>
+            </div>
+        </div>
+        <div class="tour-bot-avatar-container">
+            <button class="tour-bot-minimize-btn" id="tourBotMinBtn" title="Minimize Guide">
+                <i class="fa-solid fa-window-minimize"></i>
+            </button>
+            <div class="tour-bot-mascot" id="tourBotMascot" title="Click me for a surprise!">
+                <svg class="tour-bot-svg" viewBox="0 0 100 100" width="75" height="75">
+                    <defs>
+                        <radialGradient id="botBodyGrad" cx="40%" cy="40%" r="60%">
+                            <stop offset="0%" stop-color="#4d4d5a" />
+                            <stop offset="50%" stop-color="#22222c" />
+                            <stop offset="100%" stop-color="#0e0e12" />
+                        </radialGradient>
+                    </defs>
+                    <!-- Thruster fire glow -->
+                    <ellipse cx="50" cy="80" rx="12" ry="6" class="bot-fire-glow" />
+                    <path d="M 42 75 Q 50 90 58 75 Z" class="bot-fire" />
+                    
+                    <!-- Floating side wings/thrusters -->
+                    <path d="M 15 45 C 15 35 25 35 25 45 C 25 55 15 55 15 45 Z" class="bot-wing-left" />
+                    <path d="M 85 45 C 85 35 75 35 75 45 C 75 55 85 55 85 45 Z" class="bot-wing-right" />
+                    <line x1="25" y1="45" x2="35" y2="45" class="bot-wing-joint" />
+                    <line x1="75" y1="45" x2="65" y2="45" class="bot-wing-joint" />
+
+                    <!-- Main Chassis Body -->
+                    <circle cx="50" cy="45" r="23" class="bot-body" />
+                    
+                    <!-- Faceplate area -->
+                    <path d="M 33 40 C 33 32 67 32 67 40 C 67 48 33 48 33 40 Z" class="bot-face" />
+                    
+                    <!-- Glowing LED Eye -->
+                    <circle cx="50" cy="40" r="7" class="bot-eye-glow" />
+                    <circle cx="50" cy="40" r="4.5" class="bot-eye" />
+                    <circle cx="48" cy="38" r="1.2" class="bot-eye-pupil" />
+
+                    <!-- Tech details/Antenna -->
+                    <line x1="50" y1="22" x2="50" y2="12" class="bot-antenna" />
+                    <circle cx="50" cy="10" r="2.5" class="bot-antenna-tip" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script type="module" src="main.js"></script>
+</body>
+</html>
