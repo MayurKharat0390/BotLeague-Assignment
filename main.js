@@ -2773,8 +2773,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email, password })
             })
             .then(res => {
+                if (res.status === 404) {
+                    throw new Error('OFFLINE_FALLBACK');
+                }
                 if (!res.ok) {
-                    return res.json().then(err => { throw new Error(err.error || 'Login Failed') });
+                    return res.json().then(err => { 
+                        const error = new Error(err.error || 'Login Failed');
+                        error.isApiError = true;
+                        throw error;
+                    });
                 }
                 return res.json();
             })
@@ -2787,6 +2794,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitBtn.innerHTML = originalBtnHTML;
             })
             .catch(err => {
+                if (err.isApiError) {
+                    loginErrorMsg.textContent = err.message;
+                    loginErrorMsg.style.display = 'block';
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHTML;
+                    return;
+                }
+
                 console.warn('Backend login endpoint unavailable, trying local mock fallback.', err);
                 
                 // Fallback simulation for local Vite development
@@ -2834,8 +2849,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ username, email, password })
             })
             .then(res => {
+                if (res.status === 404) {
+                    throw new Error('OFFLINE_FALLBACK');
+                }
                 if (!res.ok) {
-                    return res.json().then(err => { throw new Error(err.error || 'Registration Failed') });
+                    return res.json().then(err => { 
+                        const error = new Error(err.error || 'Registration Failed');
+                        error.isApiError = true;
+                        throw error;
+                    });
                 }
                 return res.json();
             })
@@ -2848,6 +2870,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitBtn.innerHTML = originalBtnHTML;
             })
             .catch(err => {
+                if (err.isApiError) {
+                    registerErrorMsg.textContent = err.message;
+                    registerErrorMsg.style.display = 'block';
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHTML;
+                    return;
+                }
+
                 console.warn('Backend registration endpoint unavailable, running local mock fallback.', err);
                 
                 // Fallback simulation for local Vite development
