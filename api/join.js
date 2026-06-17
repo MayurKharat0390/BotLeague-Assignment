@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { name, email, role } = req.body;
+        const { name, email, role, loc } = req.body;
 
         // Backend Validation
         if (!name || !email || !role) {
@@ -50,6 +50,7 @@ export default async function handler(req, res) {
                     name,
                     email,
                     role,
+                    location: loc || '',
                     created_at: new Date().toISOString()
                 })
             });
