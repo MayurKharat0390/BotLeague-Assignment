@@ -386,8 +386,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> REGISTERING...';
 
-                // Simulate AJAX response after 1.2s
-                setTimeout(() => {
+                // Collect form data dynamically and normalize keys
+                const formData = {
+                    role: form.getAttribute('data-type') || 'Unknown'
+                };
+                
+                form.querySelectorAll('input').forEach(input => {
+                    let key = input.id;
+                    // Normalize keys: judgeName -> name, judgeLoc -> loc, judgeEmail -> email
+                    key = key.replace(/^(judge|volunteer|partner)/, '').toLowerCase();
+                    formData[key] = input.value;
+                });
+
+                // Call the serverless backend API
+                fetch('/api/join', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('API Error response status: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Ecosystem Registration Success:', data);
                     card.classList.add('submitted');
                     submitBtn.disabled = false;
                     submitBtn.textContent = originalText;
@@ -396,7 +422,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     inputs.forEach(input => {
                         input.value = '';
                     });
-                }, 1200);
+                })
+                .catch(err => {
+                    console.warn('Backend API not reachable. Falling back to local offline simulation.', err);
+                    // Fallback to simulation for offline/local Vite dev
+                    setTimeout(() => {
+                        card.classList.add('submitted');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalText;
+                        
+                        // Reset input values
+                        inputs.forEach(input => {
+                            input.value = '';
+                        });
+                    }, 1200);
+                });
             }
         });
 
@@ -430,12 +470,51 @@ document.addEventListener('DOMContentLoaded', () => {
         newsletterForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const emailInput = this.querySelector('input');
-            if (validateEmail(emailInput.value)) {
-                newsletterSuccess.classList.add('visible');
-                emailInput.value = '';
-                setTimeout(() => {
-                    newsletterSuccess.classList.remove('visible');
-                }, 4000);
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const emailVal = emailInput.value.trim();
+
+            if (validateEmail(emailVal)) {
+                const originalText = submitBtn ? submitBtn.innerHTML : '';
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+                }
+
+                fetch('/api/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: emailVal })
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('API Error');
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Newsletter subscription successful:', data);
+                    if (newsletterSuccess) newsletterSuccess.classList.add('visible');
+                    emailInput.value = '';
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalText;
+                    }
+                    setTimeout(() => {
+                        if (newsletterSuccess) newsletterSuccess.classList.remove('visible');
+                    }, 4000);
+                })
+                .catch(err => {
+                    console.warn('Newsletter API not reachable. Falling back to simulated subscriber response.', err);
+                    if (newsletterSuccess) newsletterSuccess.classList.add('visible');
+                    emailInput.value = '';
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalText;
+                    }
+                    setTimeout(() => {
+                        if (newsletterSuccess) newsletterSuccess.classList.remove('visible');
+                    }, 4000);
+                });
             }
         });
     }
