@@ -90,98 +90,12 @@ module.exports = async function handler(req, res) {
         // Generate token
         const mockToken = Buffer.from(JSON.stringify({ email, username, exp: Date.now() + 24*60*60*1000 })).toString('base64');
 
-        // Send confirmation email via Resend or Brevo
-        const resendApiKey = process.env.RESEND_API_KEY;
-        const brevoApiKey = process.env.BREVO_API_KEY;
-        const brevoSenderEmail = process.env.BREVO_SENDER_EMAIL || 'noreply@botleague.com';
-        let emailSent = false;
-        
-        const emailHtml = `
-            <div style="background-color: #0c0c12; color: #ffffff; padding: 40px; font-family: 'Segoe UI', sans-serif; border-radius: 8px; max-width: 600px; margin: 0 auto; border: 1px solid #ff0055;">
-                <h1 style="color: #ff0055; text-align: center; text-transform: uppercase; letter-spacing: 2px;">BotLeague Arena</h1>
-                <p style="font-size: 16px; line-height: 1.6; color: #b0b0bc;">Hello <strong>${username}</strong>,</p>
-                <p style="font-size: 16px; line-height: 1.6; color: #b0b0bc;">Your account has been successfully verified! You now have full pilot access to India's Ultimate Robotics Arena.</p>
-                <div style="background-color: rgba(255,0,85,0.05); border: 1px dashed rgba(255,0,85,0.3); border-radius: 6px; padding: 20px; margin: 25px 0;">
-                    <h3 style="color: #ff0055; margin-top: 0;">🔧 YOUR PROFILE LOG</h3>
-                    <p style="margin: 5px 0; color: #d0d0dc;"><strong>Username:</strong> ${username}</p>
-                    <p style="margin: 5px 0; color: #d0d0dc;"><strong>Portal Access:</strong> Granted (Level 1 Pilot)</p>
-                    <p style="margin: 5px 0; color: #d0d0dc;"><strong>XP Multiplier:</strong> 1.0x active</p>
-                </div>
-                <p style="font-size: 15px; line-height: 1.6; color: #8c8c9c; text-align: center; margin-top: 30px;">
-                    Prepare your Battle Bot. We will see you in the arena!
-                </p>
-            </div>
-        `;
-
-        if (brevoApiKey) {
-            // Brevo allows sending to ANY email address in free sandbox mode!
-            try {
-                const emailResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
-                    method: 'POST',
-                    headers: {
-                        'accept': 'application/json',
-                        'api-key': brevoApiKey,
-                        'content-type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        sender: {
-                            name: 'BotLeague Arena',
-                            email: brevoSenderEmail
-                        },
-                        to: [{ email, name: username }],
-                        subject: '🤖 Welcome to BotLeague Arena!',
-                        htmlContent: emailHtml
-                    })
-                });
-
-                if (emailResponse.ok) {
-                    emailSent = true;
-                    console.log(`Welcome email successfully sent to ${email} via Brevo`);
-                } else {
-                    const emailErr = await emailResponse.text();
-                    console.error('Brevo API email error:', emailErr);
-                }
-            } catch (emailErr) {
-                console.error('Brevo service failed to send email:', emailErr);
-            }
-        } else if (resendApiKey) {
-            // Resend requires verified domain to send to others
-            try {
-                const emailResponse = await fetch('https://api.resend.com/emails', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${resendApiKey}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        from: 'BotLeague Arena <onboarding@resend.dev>',
-                        to: [email],
-                        subject: '🤖 Welcome to BotLeague Arena!',
-                        html: emailHtml
-                    })
-                });
-                
-                if (emailResponse.ok) {
-                    emailSent = true;
-                    console.log(`Welcome email successfully sent to ${email} via Resend`);
-                } else {
-                    const emailErr = await emailResponse.text();
-                    console.error('Resend API email error:', emailErr);
-                }
-            } catch (emailErr) {
-                console.error('Resend service failed to send email:', emailErr);
-            }
-        } else {
-            console.log(`[Email Mock] Welcome email for ${email} skipped (configure BREVO_API_KEY or RESEND_API_KEY)`);
-        }
-
         return res.status(200).json({
             success: true,
             message: 'User registered successfully!',
             token: mockToken,
             user: { username, email },
-            database: dbStatus,
-            emailSent
+            database: dbStatus
         });
 
     } catch (err) {

@@ -1,42 +1,62 @@
 # 🤖 BotLeague - India's Ultimate Robotics Arena
 
-An ultra-premium, high-performance, and immersive landing page designed for **BotLeague**, India's premier robotics battle arena. Built using modern frontend methodologies, vanilla CSS, and vanilla JavaScript powered by **Vite**.
+An ultra-premium, high-performance, and immersive landing page designed for **BotLeague**, India's premier robotics battle arena. Built using modern frontend methodologies, vanilla CSS, and vanilla JavaScript powered by **Vite** with a secure **Vercel Serverless Node.js backend**.
 
-Live deployment ready: Perfect for showcasing advanced UI/UX design, custom micro-interactions, responsive frameworks, and interactive game mechanics to recruiters.
-
----
-
-## 🌟 Key Features
-
-### 1. ⚔️ Interactive Fighting Robots Simulator
-* **Live Action Console**: Users can interact directly with the robot arena.
-* **Combat Controls**: Click to execute **Laser**, **Shield**, or **Charge** commands.
-* **Dynamic State Management**: Real-time updating health bars, energy meters, action logs, and win/loss state conditions.
-* **Micro-Animations**: Custom particle effects, screenshake, and damage-flash animations built entirely in pure CSS/JS.
-
-### 2. 🌌 Cyberpunk Premium Hero Section
-* **Immersive Atmosphere**: Sleek dark-mode theme utilizing dark metallics, neon accents, and glowing radial gradients.
-* **Visual Polish**: Fluid hover states, custom typography (Outfit & Orbitron), and glassmorphic UI panels.
-* **Call To Actions**: High-intent registration triggers with smooth page anchors.
-
-### 3. 🛡️ Premium Sponsor & Partner Grid
-* **Monochrome Aesthetic**: Sponsor logos rendered in uniform black & grey tones to maintain brand cohesion.
-* **Card Framing**: Housed inside glossy dark cards (`#0c0c10`) featuring hover lift effects, border glow transitions, and partner role tagging (`Academic Partner`, `Hardware Sponsor`, `Industry Partner`).
-
-### 4. 🧬 Creative "Join the Ecosystem" Hub
-* **Split Layout with Live Telemetry**: Left side displays a live-fluctuating participant counter (`🟢 12,847+ Active Members`) to create urgency and social proof.
-* **Role-Selector System**: Interactive pills (Judge, Volunteer, Partner) that auto-scroll users to their specific card.
-* **Stateful Forms**: Cards containing benefits, role tags, custom input fields, active loading spinners, and styled success check-mark states.
+### 🔗 Live Deployment: [https://bot-league-assignment.vercel.app/](https://bot-league-assignment.vercel.app/)
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## 🎨 UI/UX Design System & Philosophy
 
-* **Bundler & Tooling**: [Vite.js](https://vitejs.dev/) (Fast development, optimized tree-shaking production builds)
-* **Markup**: Semantic HTML5 (SEO friendly structure with strict sectioning tags)
-* **Styling**: Vanilla CSS3 (Custom variables, Flexbox/Grid layouts, and CSS keyframe animations)
-* **Logic**: Vanilla JavaScript (ES6+ modular event handlers, real-time counters, state machines, DOM manipulation)
-* **Icons**: [FontAwesome](https://fontawesome.com/)
+Recruiters and frontend engineers will appreciate the following visual and architectural decisions implemented throughout the project:
+
+### 🌌 1. Cyberpunk / High-Tech Industrial Theme
+* **Color Palette**: Dark obsidian backgrounds (`#050508`) paired with neon accents (Pyro Red, Cyber Blue, Ember Amber) to simulate a high-stakes arena environment.
+* **Glassmorphism**: Backdrop blur overlays, semi-transparent glossy panels, and subtle border highlights (`rgba(255, 255, 255, 0.08)`) that create a layered 3D depth.
+* **Modern Typography**: Structured titles using `Orbitron` and clean, readable text bodies using `Outfit` (sourced from Google Fonts) to maintain a gaming/futuristic aesthetic.
+
+### ⚡ 2. Immersive Micro-Interactions & Transitions
+* **Interactive Robot Hover Panels**: Fighting robots scale up, display grid overlays, and trigger status light indicators when hovered over.
+* **Fluid Keyframe Animations**: Subtle breathing glows, rotating background orbit rings in the ecosystem panel, and custom SVG animation states.
+* **Smooth CSS Transitions**: All buttons, links, cards, and input fields morph smoothly (`transition: all 0.3s cubic-bezier(...)`) rather than jumping instantly.
+
+### 📱 3. Fully Responsive Mobile-First Breakpoints
+* Layout adjusts fluidly across ultra-wide monitors, standard laptops, tablets, and smartphones using CSS grid/flexbox dynamics.
+* Fully styled mobile navigation drawer with custom hamburger toggle mechanics.
+
+---
+
+## ⚙️ Core Features
+
+### 1. ⚔️ Playable Robot Battle Simulator Console
+* **Interactive HUD Controls**: Users can click **Laser**, **Shield**, or **Charge** buttons to simulate a battle between two heavy-duty combatants.
+* **Real-time DOM Telemetry**: Updates health bars, energy meters, active actions log, and registers round wins/losses instantly.
+* **Visual Effects**: Screen-shake, collision flashes, and particle sparks rendered on hits.
+
+### 2. 🔐 Cyberpunk User Portal & Authentication Modal
+* **Interactive Login/Register Modal**: Features smooth tab transitions between login and registration panels.
+* **Advanced Backend Security**: Secure password encryption in `/api/auth` using Node.js's native `crypto.pbkdf2Sync` (zero dependencies, high efficiency) with unique salts.
+* **Dynamic Header State**: Once logged in, login/signup buttons fade out and are replaced with a glowing User Profile trigger (`Astronaut Avatar`).
+* **Glassmorphic User Dashboard Console**: Access your membership details (Active status, Rank: Level 1, Reputation: 150 XP, and registered event tickets).
+
+### 3. 🧬 Creative "Join the Ecosystem" Hub
+* **Live Telemetry social proof**: Left side displays a live fluctuating active member counter (`🟢 12,847+ Members Online`) to drive sign-ups.
+* **Stateful Role Cards**: Switching between Judge, Volunteer, or Partner forms updates the submission cards.
+* **Vercel Serverless Integrations**: Submissions hit `/api/join` serverless handler, validate inputs, show interactive spinner loading states (`REGISTERING...`), and transition to a checklist success page.
+
+### 🛡️ 4. Monochrome Sponsors & Partners Section
+* **Uniform Grayscale Styling**: Partner logos display in high-fidelity black & grey to keep sections clean and professional.
+* **Hover Restoral**: Hovering over a logo card lifts the card, brightens the logo color, and generates a glowing neon border indicating partnership levels.
+
+---
+
+## 🛠️ Technical Architecture
+
+* **Frontend**: Vanilla HTML5, CSS3 Variables, ES6+ Modular JavaScript
+* **Build Engine**: Vite.js (Optimized production assets tree-shaking & code splitting)
+* **Backend**: Vercel Serverless Functions (Node.js API endpoints inside `/api/`)
+* **Database (Optional)**: Connects directly to a **Supabase (PostgreSQL)** database.
+* **Resilient Offline Fallback**: If run locally via `npm run dev` (where serverless backend ports are offline), the JS automatically detects this, warns in the console, and falls back to mock storage so registration flows still succeed instantly for evaluation.
 
 ---
 
@@ -59,38 +79,46 @@ Live deployment ready: Perfect for showcasing advanced UI/UX design, custom micr
    ```
    Open `http://localhost:5173` in your browser.
 
-4. **Compile production build:**
+4. **Run Serverless Backend APIs Locally**:
+   * Install Vercel CLI: `npm install -g vercel`
+   * Run the CLI dev server: `vercel dev` (hosts on `http://localhost:3000` with full API support).
+
+5. **Build for production:**
    ```bash
    npm run build
    ```
-   The production-ready assets will compile into the `dist/` directory.
 
 ---
 
-## 🌐 How to Deploy to Vercel (Recruiter-Ready)
+## 🗄️ Database Table Setup (Supabase / PostgreSQL)
 
-Vite projects deploy seamlessly to **Vercel** in seconds:
+Run the following SQL script in your Supabase SQL editor to create the required tables:
 
-1. **Sign Up/Log In**: Go to [Vercel](https://vercel.com/) and log in with your GitHub account.
-2. **Import Repo**: Click **"Add New"** > **"Project"** and select `BotLeague-Assignment` from your GitHub list.
-3. **Configure Project**:
-   * **Framework Preset**: Vercel will automatically detect `Vite`.
-   * **Root Directory**: `./` (default)
-   * **Build Command**: `npm run build` (automatic)
-   * **Output Directory**: `dist` (automatic)
-4. **Deploy**: Click **"Deploy"**. Your live URL will be ready within 30 seconds!
+```sql
+-- 1. Create table for registered users
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    password_salt TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
 
----
+-- 2. Create table for Ecosystem registrations
+CREATE TABLE registrations (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    role VARCHAR(100) NOT NULL,
+    location VARCHAR(255),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
 
-## 🧑‍💻 Full-Stack Considerations & Recommendations
-
-As a **Full-Stack Developer**, you can make this project stand out even more to recruiters by demonstrating backend expertise:
-1. **Serverless Form API**:
-   * Instead of local simulation, build a simple serverless endpoint (e.g., using **Vercel Serverless Functions** in `/api/register.js` or a Node/Express backend).
-   * Persist registrations in a lightweight database like **Supabase (PostgreSQL)**, **Firebase**, or **MongoDB Atlas**.
-2. **Webhooks / Email Notifications**:
-   * Hook form submissions to **Resend** or **SendGrid** to trigger a real email confirmation upon joining.
-   * Send registrations to a Discord/Slack webhook channel so recruiters see notifications in real-time.
-3. **Performance & SEO**:
-   * Leverage Vite’s asset optimization.
-   * Set up open-graph meta tags so the link previews look gorgeous when shared on LinkedIn or Twitter.
+-- 3. Create table for Newsletter subscribers
+CREATE TABLE subscribers (
+    id BIGSERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+```
