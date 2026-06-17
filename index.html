@@ -45,8 +45,10 @@
                     <i class="fa-solid fa-bolt"></i>
                     <span class="theme-toggle-text">Pyro Red</span>
                 </button>
-                <a href="#ecosystem" class="btn btn-login">Login</a>
-                <a href="#ecosystem" class="btn btn-register">Register Now</a>
+                <div class="auth-buttons-container" id="authHeaderContainer">
+                    <a href="javascript:void(0)" class="btn btn-login" id="loginHeaderBtn">Login</a>
+                    <a href="javascript:void(0)" class="btn btn-register" id="registerHeaderBtn">Register Now</a>
+                </div>
                 <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -1035,6 +1037,116 @@
                     <line x1="50" y1="22" x2="50" y2="12" class="bot-antenna" />
                     <circle cx="50" cy="10" r="2.5" class="bot-antenna-tip" />
                 </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         AUTH MODAL (LOGIN & REGISTER)
+         ============================================ -->
+    <div class="auth-modal-overlay" id="authModal">
+        <div class="auth-modal-card">
+            <button class="auth-close-btn" id="closeAuthBtn">&times;</button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">LOGIN</button>
+                <button class="auth-tab" data-tab="register">REGISTER</button>
+            </div>
+            
+            <div class="auth-forms-container">
+                <!-- Login Form -->
+                <form class="auth-form active" id="loginForm">
+                    <div class="auth-alert error" id="loginErrorMsg"></div>
+                    <div class="form-group">
+                        <input type="email" id="loginEmail" required placeholder=" " class="form-control">
+                        <label for="loginEmail">Email Address</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="loginPassword" required placeholder=" " class="form-control">
+                        <label for="loginPassword">Password</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">ACCESS PORTAL <i class="fa-solid fa-unlock-keyhole"></i></button>
+                    <p class="auth-hint">Default Mock Admin: <code>admin@botleague.com</code> / <code>password123</code></p>
+                </form>
+
+                <!-- Register Form -->
+                <form class="auth-form" id="registerForm">
+                    <div class="auth-alert error" id="registerErrorMsg"></div>
+                    <div class="form-group">
+                        <input type="text" id="registerUsername" required placeholder=" " class="form-control">
+                        <label for="registerUsername">Username</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="registerEmail" required placeholder=" " class="form-control">
+                        <label for="registerEmail">Email Address</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="registerPassword" required placeholder=" " class="form-control">
+                        <label for="registerPassword">Password (Min 6 chars)</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">CREATE ACCOUNT <i class="fa-solid fa-user-plus"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         USER DASHBOARD CONSOLE MODAL
+         ============================================ -->
+    <div class="auth-modal-overlay" id="dashboardModal">
+        <div class="dashboard-card">
+            <button class="auth-close-btn" id="closeDashboardBtn">&times;</button>
+            <div class="dash-header">
+                <div class="dash-avatar-large"><i class="fa-solid fa-user-astronaut"></i></div>
+                <div>
+                    <h3 id="dashUsername">MAYUR K.</h3>
+                    <span class="dash-badge">BOTLEAGUE MEMBER</span>
+                </div>
+            </div>
+            
+            <div class="dash-body">
+                <div class="dash-section">
+                    <h4><i class="fa-solid fa-id-card"></i> Member Information</h4>
+                    <div class="dash-info-grid">
+                        <div>
+                            <span class="dash-info-label">Email Address</span>
+                            <span class="dash-info-val" id="dashEmail">mayur@gmail.com</span>
+                        </div>
+                        <div>
+                            <span class="dash-info-label">Status</span>
+                            <span class="dash-info-val text-neon-green">ACTIVE SESSION</span>
+                        </div>
+                        <div>
+                            <span class="dash-info-label">Rank</span>
+                            <span class="dash-info-val">Level 1 - Enthusiast</span>
+                        </div>
+                        <div>
+                            <span class="dash-info-label">XP / Rep</span>
+                            <span class="dash-info-val text-neon-blue">150 XP</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dash-section">
+                    <h4><i class="fa-solid fa-ticket"></i> Registered Tickets / Events</h4>
+                    <div class="dash-tickets-list">
+                        <div class="dash-ticket-item">
+                            <div>
+                                <h5>Spectator Arena Pass</h5>
+                                <p>BotLeague National Finals 2026</p>
+                            </div>
+                            <span class="ticket-status-pill verified">Verified</span>
+                        </div>
+                        <div class="dash-ticket-item">
+                            <div>
+                                <h5>Ecosystem Role: Volunteer</h5>
+                                <p>Requested for City Operations</p>
+                            </div>
+                            <span class="ticket-status-pill pending">Pending Review</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline btn-block" id="logoutBtn"><i class="fa-solid fa-power-off"></i> LOG OUT SESSION</button>
             </div>
         </div>
     </div>

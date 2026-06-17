@@ -2617,5 +2617,256 @@ document.addEventListener('DOMContentLoaded', () => {
             speakForSection('hero');
         }, 2000);
     }
+
+    // ============================================
+    // AUTHENTICATION & USER PORTAL SYSTEM
+    // ============================================
+    const authHeaderContainer = document.getElementById('authHeaderContainer');
+    const authModal = document.getElementById('authModal');
+    const dashboardModal = document.getElementById('dashboardModal');
+    const closeAuthBtn = document.getElementById('closeAuthBtn');
+    const closeDashboardBtn = document.getElementById('closeDashboardBtn');
+    const authTabs = document.querySelectorAll('.auth-tab');
+    const authForms = document.querySelectorAll('.auth-form');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const loginErrorMsg = document.getElementById('loginErrorMsg');
+    const registerErrorMsg = document.getElementById('registerErrorMsg');
+    const dashUsername = document.getElementById('dashUsername');
+    const dashEmail = document.getElementById('dashEmail');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // Initialize Auth state
+    renderHeaderState();
+
+    function renderHeaderState() {
+        const userJSON = localStorage.getItem('botleague_user');
+        if (userJSON) {
+            try {
+                const user = JSON.parse(userJSON);
+                authHeaderContainer.innerHTML = `
+                    <div class="user-profile-menu" id="userProfileMenu">
+                        <button class="profile-trigger-btn" id="profileTriggerBtn">
+                            <span class="user-avatar-small"><i class="fa-solid fa-user-astronaut"></i></span>
+                            <span class="user-name-label" id="userNameLabel">${user.username}</span>
+                            <i class="fa-solid fa-caret-down"></i>
+                        </button>
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <a href="javascript:void(0)" id="openDashBtn"><i class="fa-solid fa-circle-user"></i> Dashboard</a>
+                            <a href="javascript:void(0)" id="logoutDropdownBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                        </div>
+                    </div>
+                `;
+
+                // Add drop down toggle handlers
+                const menu = document.getElementById('userProfileMenu');
+                const trigger = document.getElementById('profileTriggerBtn');
+                const openDash = document.getElementById('openDashBtn');
+                const logoutDrop = document.getElementById('logoutDropdownBtn');
+
+                trigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    menu.classList.toggle('open');
+                });
+
+                document.addEventListener('click', () => {
+                    menu.classList.remove('open');
+                });
+
+                openDash.addEventListener('click', () => {
+                    dashUsername.textContent = user.username.toUpperCase();
+                    dashEmail.textContent = user.email;
+                    dashboardModal.classList.add('active');
+                });
+
+                logoutDrop.addEventListener('click', performLogout);
+            } catch (err) {
+                console.error("Error parsing user info:", err);
+                performLogout();
+            }
+        } else {
+            authHeaderContainer.innerHTML = `
+                <a href="javascript:void(0)" class="btn btn-login" id="loginHeaderBtn">Login</a>
+                <a href="javascript:void(0)" class="btn btn-register" id="registerHeaderBtn">Register Now</a>
+            `;
+
+            // Attach click listeners to buttons
+            document.getElementById('loginHeaderBtn').addEventListener('click', () => openAuthModal('login'));
+            document.getElementById('registerHeaderBtn').addEventListener('click', () => openAuthModal('register'));
+        }
+    }
+
+    function openAuthModal(mode) {
+        // Clear errors
+        loginErrorMsg.style.display = 'none';
+        registerErrorMsg.style.display = 'none';
+        
+        authModal.classList.add('active');
+        switchTab(mode);
+    }
+
+    function closeAuthModal() {
+        authModal.classList.remove('active');
+    }
+
+    function switchTab(mode) {
+        authTabs.forEach(tab => {
+            if (tab.getAttribute('data-tab') === mode) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+
+        authForms.forEach(form => {
+            if (form.getAttribute('id') === `${mode}Form`) {
+                form.classList.add('active');
+            } else {
+                form.classList.remove('active');
+            }
+        });
+    }
+
+    function performLogout() {
+        localStorage.removeItem('botleague_user');
+        localStorage.removeItem('botleague_token');
+        dashboardModal.classList.remove('active');
+        renderHeaderState();
+    }
+
+    // Modal Close Triggers
+    if (closeAuthBtn) closeAuthBtn.addEventListener('click', closeAuthModal);
+    if (closeDashboardBtn) closeDashboardBtn.addEventListener('click', () => dashboardModal.classList.remove('active'));
+    if (logoutBtn) logoutBtn.addEventListener('click', performLogout);
+
+    // Switch tabs on click
+    authTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            switchTab(this.getAttribute('data-tab'));
+        });
+    });
+
+    // Close modal if clicked outside card
+    authModal.addEventListener('click', (e) => {
+        if (e.target === authModal) closeAuthModal();
+    });
+    dashboardModal.addEventListener('click', (e) => {
+        if (e.target === dashboardModal) dashboardModal.classList.remove('active');
+    });
+
+    // Login Form Submission
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const submitBtn = this.querySelector('button[type="submit"]');
+            
+            loginErrorMsg.style.display = 'none';
+            const originalBtnHTML = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> SECURING SESSION...';
+
+            fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            })
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(err => { throw new Error(err.error || 'Login Failed') });
+                }
+                return res.json();
+            })
+            .then(data => {
+                localStorage.setItem('botleague_user', JSON.stringify(data.user));
+                localStorage.setItem('botleague_token', data.token);
+                closeAuthModal();
+                renderHeaderState();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnHTML;
+            })
+            .catch(err => {
+                console.warn('Backend login endpoint unavailable, trying local mock fallback.', err);
+                
+                // Fallback simulation for local Vite development
+                setTimeout(() => {
+                    if (email === 'admin@botleague.com' && password === 'password123') {
+                        const mockUser = { username: 'AdminBot', email };
+                        localStorage.setItem('botleague_user', JSON.stringify(mockUser));
+                        localStorage.setItem('botleague_token', 'mock_jwt_token_admin');
+                        closeAuthModal();
+                        renderHeaderState();
+                    } else if (password.length >= 6) {
+                        const mockUser = { username: email.split('@')[0], email };
+                        localStorage.setItem('botleague_user', JSON.stringify(mockUser));
+                        localStorage.setItem('botleague_token', 'mock_jwt_token');
+                        closeAuthModal();
+                        renderHeaderState();
+                    } else {
+                        loginErrorMsg.textContent = 'Invalid email or password (Mock Mode: Password must be >= 6 chars. Try admin@botleague.com / password123)';
+                        loginErrorMsg.style.display = 'block';
+                    }
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHTML;
+                }, 1000);
+            });
+        });
+    }
+
+    // Register Form Submission
+    if (registerForm) {
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const submitBtn = this.querySelector('button[type="submit"]');
+
+            registerErrorMsg.style.display = 'none';
+            const originalBtnHTML = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> SECURING SESSION...';
+
+            fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
+            })
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(err => { throw new Error(err.error || 'Registration Failed') });
+                }
+                return res.json();
+            })
+            .then(data => {
+                localStorage.setItem('botleague_user', JSON.stringify(data.user));
+                localStorage.setItem('botleague_token', data.token);
+                closeAuthModal();
+                renderHeaderState();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnHTML;
+            })
+            .catch(err => {
+                console.warn('Backend registration endpoint unavailable, running local mock fallback.', err);
+                
+                // Fallback simulation for local Vite development
+                setTimeout(() => {
+                    if (password.length >= 6) {
+                        const mockUser = { username, email };
+                        localStorage.setItem('botleague_user', JSON.stringify(mockUser));
+                        localStorage.setItem('botleague_token', 'mock_jwt_token_register');
+                        closeAuthModal();
+                        renderHeaderState();
+                    } else {
+                        registerErrorMsg.textContent = 'Password must be at least 6 characters.';
+                        registerErrorMsg.style.display = 'block';
+                    }
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHTML;
+                }, 1000);
+            });
+        });
+    }
 });
 
